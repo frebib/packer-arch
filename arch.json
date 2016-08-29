@@ -1,0 +1,45 @@
+{
+    "builders": [
+        {
+            "type": "qemu",
+            "vm_name": "arch",
+            "iso_url": "http://mirror.bytemark.co.uk/archlinux/iso/2016.08.01/archlinux-2016.08.01-dual.iso",
+            "iso_checksum_url": "http://mirror.bytemark.co.uk/archlinux/iso/2016.08.01/sha1sums.txt",
+            "iso_checksum_type": "sha1",
+            "shutdown_command": "sudo poweroff",
+            "ssh_username": "root",
+            "ssh_password": "packer",
+            "headless": true,
+            "disk_size": 4096,
+            "disk_interface": "virtio",
+            "output_directory": "build",
+            "boot_wait": "2s",
+            "boot_command": [
+                "<enter><wait25s>",
+                "passwd<enter>packer<enter>packer<enter>",
+                "systemctl start sshd<enter><wait>"
+            ],
+            "qemuargs": [
+                [ "-net", "nic,model=virtio" ],
+                [ "-net", "bridge,br=br0" ]
+            ]
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "scripts/",
+            "destination": "/tmp"
+        },
+        {
+            "type": "shell",
+            "inline": "/tmp/setup.sh"
+        }
+    ],
+    "post-processors": [
+        {
+            "type": "vagrant",
+            "output": "arch.box"
+        }
+    ]
+}
