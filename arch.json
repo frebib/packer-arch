@@ -12,7 +12,7 @@
             "headless": true,
             "disk_size": 16384,
             "disk_interface": "virtio",
-            "output_directory": "build",
+            "output_directory": "/tmp/build",
             "boot_wait": "2s",
             "boot_command": [
                 "<enter><wait25s>",
