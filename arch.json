@@ -10,7 +10,7 @@
             "ssh_username": "root",
             "ssh_password": "packer",
             "headless": true,
-            "disk_size": 4096,
+            "disk_size": 16384,
             "disk_interface": "virtio",
             "output_directory": "build",
             "boot_wait": "2s",
@@ -33,7 +33,23 @@
         },
         {
             "type": "shell",
-            "inline": "/tmp/setup.sh"
+            "inline": "/tmp/vars setup.sh"
+        },
+        {
+            "type": "shell",
+            "inline": "/tmp/vars run-chroot vagrant-setup.sh"
+        },
+        {
+            "type": "shell",
+            "inline": "/tmp/vars run-chroot cleanup.sh"
+        },
+        {
+            "type": "shell",
+            "inline": "/tmp/vars sh -c 'ln -sfv /run/systemd/resolve/resolv.conf $MNT/etc/resolv.conf'"
+        },
+        {
+            "type": "shell",
+            "inline": "/tmp/vars sh -c 'sync && umount $MNT'"
         }
     ],
     "post-processors": [

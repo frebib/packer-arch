@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -exa
+
+SCRIPT_PATH=$1
+CHROOT_SCRIPT=$(basename $SCRIPT_PATH)
+cp /tmp/$SCRIPT_PATH $MNT
+# Pass environment through to chroot
+arch-chroot $MNT /$CHROOT_SCRIPT echo $(env|xargs)
+rm -f $MNT/$CHROOT_SCRIPT

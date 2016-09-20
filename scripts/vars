@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -ea
+
+# Add current scripts directory to the path
+cd $(dirname $0)
+PATH="${PATH}:$(pwd)"
+
+DISK="/dev/vda"
+FORMAT="ext4"
+MNT="/mnt"
+KERNEL="linux-lts"
+PKG_INSTALL="sudo vim"
+PKG_IGNORE="cryptsetup device-mapper diffutils ed jfsutils logrotate lvm2 man-db man-pages mdadm nano netctl pciutils pcmciautils s-nail usbutils vi"
+PKG_EXTRA="bash-completion openssh python2"
+
+[ $# -gt 0 ] && "$@"
