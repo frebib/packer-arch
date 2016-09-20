@@ -1,10 +1,6 @@
 #!/bin/bash
 set -exa
 
-LANG="en_GB.UTF-8"
-LOCALE="$LANG UTF-8"
-ZONEINFO="Europe/London"
-
 # Set the local timezone
 ln -s /usr/share/zoneinfo/$ZONEINFO /etc/localtime
 

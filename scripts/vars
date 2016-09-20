@@ -11,6 +11,10 @@ MNT="/mnt"
 KERNEL="linux-lts"
 PKG_INSTALL="sudo vim"
 PKG_IGNORE="cryptsetup device-mapper diffutils ed jfsutils logrotate lvm2 man-db man-pages mdadm nano netctl pciutils pcmciautils s-nail usbutils vi"
+
+LANG="en_GB.UTF-8"
+LOCALE="$LANG UTF-8"
+ZONEINFO="Europe/London"
 PKG_EXTRA="bash-completion openssh python2"
 
 [ $# -gt 0 ] && "$@"
