@@ -7,6 +7,7 @@ ln -s /usr/share/zoneinfo/$ZONEINFO /etc/localtime
 # Set system locale
 echo "$LOCALE" > /etc/locale.gen
 echo "LANG=$LANG" > /etc/locale.conf
+[ -n "$REPO" ] && echo "$REPO" | sed 's|\s|\n|g' | sed 's|^|Server = |g' > /etc/pacman.d/mirrorlist
 locale-gen
 
 # Build kernel image (Redundant as is built on kernel installation)

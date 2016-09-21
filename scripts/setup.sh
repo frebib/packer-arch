@@ -19,6 +19,7 @@ mkfs.$FORMAT "$DISK"2
 mount "$DISK"2 $MNT
 
 # Install system packages
+[ -n "$REPO" ] && echo "$REPO" | sed 's|\s|\n|g' | sed 's|^|Server = |g' > /etc/pacman.d/mirrorlist
 pacman -Sy
 PKG_BASE="$(comm -23 <(pacman -Sgq base | sort) <(echo "$PKG_IGNORE linux" | sed 's|\s|\n|g' | sort) | xargs) $KERNEL"
 pacstrap $MNT $PKG_BASE $PKG_INSTALL
