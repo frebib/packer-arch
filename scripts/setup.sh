@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -exa
 
-echo $PATH
-which run-chroot
-
 # Update the system clock
 timedatectl set-ntp true
 

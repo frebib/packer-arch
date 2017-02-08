@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -exa
 
+pacman -S python2 --noconfirm --needed
+
 # Vagrant default user
 user="vagrant"
 useradd -m $user
@@ -15,14 +17,24 @@ chown ${user}:${user} /home/${user}/.ssh/authorized_keys
 echo -e "Match User ${user}\n    PasswordAuthentication no" >> /etc/ssh/sshd_config
 
 # Configure network for running in Vagrant
-mkdir -p /run/systemd/resolve
-
-systemctl enable systemd-resolved
-systemctl enable systemd-networkd
-systemctl enable systemd-networkd-wait-online
-
-echo -e "[Match]\nName=eth1\n[Network]\nDHCP=ipv4\n[DHCP]\nRouteMetric=20" > "/etc/systemd/network/global.network"
-echo -e "[Match]\nName=eth0\n[Network]\nDHCP=ipv4\n[DHCP]\nRouteMetric=100\nUseDNS=false" > "/etc/systemd/network/vagrant.network"
+rm -f /etc/systemd/network/default.network
+cat << EOF > /etc/systemd/network/global.network
+[Match]
+Name=eth1
+[Network]
+DHCP=ipv4
+[DHCP]
+RouteMetric=20
+EOF
+cat << EOF > /etc/systemd/network/vagrant.network
+[Match]
+Name=eth0
+[Network]
+DHCP=ipv4
+[DHCP]
+RouteMetric=100
+UseDNS=false
+EOF
 
 # Trick Vagrant into thinking netctl is installed :roll_eyes:
 mkdir -p /etc/netctl

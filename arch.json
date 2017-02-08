@@ -3,14 +3,14 @@
         {
             "type": "qemu",
             "vm_name": "arch",
-            "iso_url": "http://mirror.bytemark.co.uk/archlinux/iso/2016.08.01/archlinux-2016.08.01-dual.iso",
-            "iso_checksum_url": "http://mirror.bytemark.co.uk/archlinux/iso/2016.08.01/sha1sums.txt",
+            "iso_url": "http://mirror.bytemark.co.uk/archlinux/iso/2017.01.01/archlinux-2017.01.01-dual.iso",
+            "iso_checksum_url": "http://mirror.bytemark.co.uk/archlinux/iso/2017.01.01/sha1sums.txt",
             "iso_checksum_type": "sha1",
             "shutdown_command": "sudo poweroff",
             "ssh_username": "root",
             "ssh_password": "packer",
             "headless": true,
-            "disk_size": 16384,
+            "disk_size": 8192,
             "disk_interface": "virtio",
             "output_directory": "/tmp/build",
             "boot_wait": "2s",
@@ -37,6 +37,10 @@
         },
         {
             "type": "shell",
+            "inline": "/tmp/vars run-chroot setup-network.sh"
+        },
+        {
+            "type": "shell",
             "inline": "/tmp/vars run-chroot vagrant-setup.sh"
         },
         {
@@ -45,11 +49,11 @@
         },
         {
             "type": "shell",
-            "inline": "/tmp/vars sh -c 'ln -sfv /run/systemd/resolve/resolv.conf $MNT/etc/resolv.conf'"
+            "inline": "/tmp/vars 'ln -sf $MNT/run/systemd/resolve/resolv.conf /etc/resolv.conf'"
         },
         {
             "type": "shell",
-            "inline": "/tmp/vars sh -c 'sync && umount $MNT'"
+            "inline": "/tmp/vars 'sync && umount $MNT'"
         }
     ],
     "post-processors": [
@@ -57,5 +61,9 @@
             "type": "vagrant",
             "output": "arch.box"
         }
-    ]
+    ],
+        "_comment": {
+            "type": "compress",
+            "output": "arch.tar.gz"
+        }
 }
