@@ -8,15 +8,15 @@
             "iso_checksum_type": "sha1",
             "shutdown_command": "sudo poweroff",
             "ssh_username": "root",
-            "ssh_password": "packer",
+            "ssh_password": "a",
             "headless": true,
             "disk_size": 8192,
             "disk_interface": "virtio",
             "output_directory": "/tmp/build",
             "boot_wait": "2s",
             "boot_command": [
-                "<enter><wait25s>",
-                "passwd<enter>packer<enter>packer<enter>",
+                "<enter><wait20s>",
+                "passwd<enter>a<enter>a<enter>",
                 "systemctl start sshd<enter><wait>"
             ],
             "qemuargs": [
